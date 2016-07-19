@@ -8,8 +8,6 @@ const sourcemaps = require('gulp-sourcemaps')
 const babel = require('gulp-babel')
 const concat = require('gulp-concat')
 
-gulp.task('build', ['babel', 'pack', 'uglify'])
-
 gulp.task('babel', () => {
 	return gulp.src('./index.js')
 		.pipe(sourcemaps.init())
@@ -21,7 +19,7 @@ gulp.task('babel', () => {
 		.pipe(gulp.dest('dist'))
 })
 
-gulp.task('pack', () => {
+gulp.task('pack', ['babel'], () => {
 	return browserify({
 		entries: 'dist/redux-watcher.js',
 		debug: true,
@@ -34,7 +32,7 @@ gulp.task('pack', () => {
 		.pipe(gulp.dest('dist'))
 })
 
-gulp.task('uglify', () => {
+gulp.task('build', ['pack'], () => {
 	return gulp.src('dist/redux-watcher.browser.js')
 		.pipe(sourcemaps.init({ loadMaps: true }))
 		.pipe(uglify())
