@@ -41,15 +41,14 @@ export default class ReduxWatcher {
 	off(selector, listener) {
 		const selectorStr = JSON.stringify(selector)
 		if (!this.__watchList[selectorStr]) {
-			console.warn(`No such listener for ${selector}`)
-			return
+			throw new Error(`No listener for ${selectorStr}`)
 		}
 		const listeners = this.__watchList[selectorStr]
 		const listenerIndex = listeners.indexOf(listener)
 		if (listenerIndex >= 0) {
 			listeners.splice(listeners.indexOf(listener))
 		} else {
-			console.warn(`No such listener for ${selector}`)
+			throw new Error(`No such listener for ${selectorStr}`)
 		}
 		if (listeners.length === 0) {
 			delete this.__watchList[selectorStr]
