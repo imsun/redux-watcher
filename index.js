@@ -55,3 +55,5 @@ export default class ReduxWatcher {
 		}
 	}
 }
+
+ReduxWatcher.select = select
