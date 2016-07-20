@@ -1,6 +1,6 @@
 # redux-watcher
 
-[![NPM version][https://img.shields.io/npm/v/redux-watcher.svg]][https://www.npmjs.com/package/redux-watcher]
+[![NPM version](https://img.shields.io/npm/v/redux-watcher.svg)][https://www.npmjs.com/package/redux-watcher]
 
 Watch [Redux](http://redux.js.org/) state changes.
 
