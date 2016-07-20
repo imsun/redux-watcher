@@ -46,7 +46,7 @@ export default class ReduxWatcher {
 		const listeners = this.__watchList[selectorStr]
 		const listenerIndex = listeners.indexOf(listener)
 		if (listenerIndex >= 0) {
-			listeners.splice(listeners.indexOf(listener))
+			listeners.splice(listeners.indexOf(listener), 1)
 		} else {
 			throw new Error(`No such listener for ${selectorStr}`)
 		}
