@@ -7,6 +7,7 @@ const rename = require('gulp-rename')
 const sourcemaps = require('gulp-sourcemaps')
 const babel = require('gulp-babel')
 const concat = require('gulp-concat')
+const mocha = require('gulp-mocha')
 
 gulp.task('babel', () => {
 	return gulp.src('./index.js')
@@ -20,7 +21,7 @@ gulp.task('babel', () => {
 		.pipe(gulp.dest('dist'))
 })
 
-gulp.task('pack', ['babel'], () => {
+gulp.task('pack', ['test'], () => {
 	return browserify({
 		entries: 'dist/redux-watcher.js',
 		debug: true,
@@ -42,4 +43,9 @@ gulp.task('build', ['pack'], () => {
 		}))
 		.pipe(sourcemaps.write('.'))
 		.pipe(gulp.dest('dist'))
+})
+
+gulp.task('test', ['babel'], () => {
+	gulp.src('./test/redux-watcher.test.js', { read: false })
+		.pipe(mocha({reporter: 'nyan'}))
 })
