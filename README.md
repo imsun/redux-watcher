@@ -1,5 +1,7 @@
 # redux-watcher
 
+[![NPM version][https://img.shields.io/npm/v/redux-watcher.svg]][https://www.npmjs.com/package/redux-watcher]
+
 Watch [Redux](http://redux.js.org/) state changes.
 
 ## Example
@@ -45,13 +47,21 @@ Or import as a module:
 import ReduxWatcher from 'redux-watcher'
 ```
 
+```js
+const ReduxWatcher = require('redux-watcher')
+```
+
 ## Usage
 
-### watcher.constructor(store)
+### ReduxWatcher(store)
+
+Create a new watcher.
 
 - `store`: [Redux Store](http://redux.js.org/docs/api/Store.html)
 
-### watcher.watch(selector, listener)
+### ReduxWatcher.prototype.watch(selector, listener)
+
+Watch the value of matching state.
 
 - `selector`: An `Array` that contains the path to the target state. e.g. `['user', 'name']` for `store.getState().user.name`
 - `listener`: A `Function` called when target state changes. An `Object` contains following properties will be passed as the parameter:
@@ -64,10 +74,20 @@ import ReduxWatcher from 'redux-watcher'
 
 **Note**: Value of state will be compared deeply.
 
-### watcher.off(selector, listener)
+### ReduxWatcher.prototype.off(selector, listener)
+
+Stop watching the matching state.
 
 - `selector`: The selector you watched before.
 - `listener`: Listener for the selector.
+
+### ReduxWatcher.select(state, selector) -> value
+
+Return value of the state according to the selector.
+
+- `state`: A state object.
+- `selector`: Selector for the target.
+- `value`: Value of the state. 
 
 ## License
 
