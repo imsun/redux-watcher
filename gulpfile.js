@@ -12,7 +12,8 @@ gulp.task('babel', () => {
 	return gulp.src('./index.js')
 		.pipe(sourcemaps.init())
 		.pipe(babel({
-			presets: ['es2015']
+			presets: ['es2015'],
+			plugins: ['add-module-exports']
 		}))
 		.pipe(concat('redux-watcher.js'))
 		.pipe(sourcemaps.write('.'))
