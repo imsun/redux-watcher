@@ -6,3 +6,4 @@ node_modules
 
 gulpfile.js
 test
+.travis.yml
