@@ -11,11 +11,11 @@ import store from './store'
 import ReduxWatcher from 'redux-watcher'
 
 const watcher = new ReduxWatcher(store)
-watcher.watch(['user'], logChange)
-watcher.watch(['user', 'name'], logChange)
+watcher.watch('user', logChange) // watch `store.getState().user`
+watcher.watch(['user', 'name'], logChange) //watch `store.getState().user.name`
 
 setTimeout(() => {
-	watcher.off(['user'], logChange)
+	watcher.off('user', logChange)
 	watcher.off(['user', 'name'], logChange)
 }, 5000)
 
@@ -63,7 +63,7 @@ Create a new watcher.
 
 Watch the value of matching state.
 
-- `selector`: An `Array` that contains the path to the target state. e.g. `['user', 'name']` for `store.getState().user.name`
+- `selector`: An `Array` or `String` of the path to target state. e.g. `user` or `['user']` for `store.getState().user`; `['user', 'name']` for `store.getState().user.name`
 - `listener`: A `Function` called when target state changes. An `Object` contains following properties will be passed as the parameter:
   - `store`: Redux Store which the watcher bound to.
   - `selector`: Same as the selector above.

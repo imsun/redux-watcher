@@ -1,6 +1,7 @@
 import isEqual from 'lodash/isEqual'
+import isString from 'lodash/isString'
 
-const select = (state, selector) => selector.reduce((prev, current) => prev[current], state)
+const select = (state, selector) => isString(selector) ? state[selector] : selector.reduce((prev, current) => prev[current], state)
 export default class ReduxWatcher {
 	constructor(store) {
 		const watchList = this.__watchList = {}

@@ -1,6 +1,6 @@
 {
   "name": "redux-watcher",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "State watcher for Redux.",
   "main": "./dist/redux-watcher.js",
   "dependencies": {

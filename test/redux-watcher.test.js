@@ -12,7 +12,7 @@ const initialState = {
 	followees: []
 }
 
-const nameSelector = ['name']
+const nameSelector = 'name'
 const firstNameSelector = ['name', 'first']
 const followeesSelector = ['followees']
 
@@ -93,23 +93,27 @@ watcher.watch(nameSelector, anotherNameListener)
 watcher.watch(firstNameSelector, firstNameListener)
 watcher.watch(followeesSelector, followeesListener)
 
-describe('ReduxWatcher.select', () => {
-	it('should select matching value with a selector', () => {
-		select(initialState, ['name', 'first']).should.equal('Initial')
-	})
-})
-
 new Promise(resolve => {
-	nameListenerResolve = resolve
-	describe('ReduxWatcher.prototype.watch', () => {
-		it('should watch changes of an Object / String', () => {
-			store.dispatch({
-				type: 'SET_NAME',
-				name: 'Foo Bar'
-			})
+	describe('ReduxWatcher.select', () => {
+		it('should select matching value with a selector', () => {
+			select(initialState, ['name', 'first']).should.equal('Initial')
+			select(initialState, 'name').should.equal(initialState.name)
+			resolve()
 		})
 	})
 })
+	.then(() => new Promise(resolve => {
+			nameListenerResolve = resolve
+			describe('ReduxWatcher.prototype.watch', () => {
+				it('should watch changes of an Object / String', () => {
+					store.dispatch({
+						type: 'SET_NAME',
+						name: 'Foo Bar'
+					})
+				})
+			})
+		})
+	)
 	.then(() => new Promise(resolve => {
 		prevState = store.getState()
 		followeesListenerResolve = resolve
