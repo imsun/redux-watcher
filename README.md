@@ -1,6 +1,12 @@
 # redux-watcher
 
-[![NPM version](https://img.shields.io/npm/v/redux-watcher.svg)](https://www.npmjs.com/package/redux-watcher)
+[![NPM version][npm-image]][npm-url]
+[![travis][travis-image]][travis-url]
+
+[npm-image]: https://img.shields.io/npm/v/redux-watcher.svg
+[npm-url]: https://www.npmjs.com/package/redux-watcher
+[travis-image]: https://img.shields.io/travis/imsun/redux-watcher/master.svg
+[travis-url]: https://travis-ci.org/imsun/redux-watcher
 
 Watch [Redux](http://redux.js.org/) state changes.
 
