@@ -39,7 +39,8 @@ let nameListenerCounter = 3
 let uncalledNameListenerCounter = nameListenerCounter
 let nameListenerResolve
 let followeesListenerResolve
-let deeplyEqualTest = false
+let customEqualTest = false
+let objectEqualTest = false
 let isWatchingName = true
 let isWatchingAnotherName = true
 let isWatchingFirstName = true
@@ -66,19 +67,21 @@ function checkName(selector, data) {
 
 function nameListener(data) {
 	isWatchingName.should.be.true
-	deeplyEqualTest.should.be.false
+	objectEqualTest.should.be.false
+	customEqualTest.should.be.false
 	checkName(nameSelector, data)
 }
 
 function anotherNameListener(data) {
 	isWatchingAnotherName.should.be.true
-	deeplyEqualTest.should.be.false
+	objectEqualTest.should.be.false
+	customEqualTest.should.be.false
 	checkName(nameSelector, data)
 }
 
 function firstNameListener(data) {
 	isWatchingFirstName.should.be.true
-	deeplyEqualTest.should.be.false
+	objectEqualTest.should.be.false
 	checkName(firstNameSelector, data)
 }
 
@@ -103,17 +106,32 @@ new Promise(resolve => {
 	})
 })
 	.then(() => new Promise(resolve => {
-			nameListenerResolve = resolve
-			describe('ReduxWatcher.prototype.watch', () => {
-				it('should watch changes of an Object / String', () => {
-					store.dispatch({
-						type: 'SET_NAME',
-						name: 'Foo Bar'
-					})
+		watcher.setCompareFunction(nameSelector, () => true)
+		customEqualTest = true
+		describe('ReduxWatcher.prototype.watch', () => {
+			it('should call listeners with custom compare function', () => {
+				store.dispatch({
+					type: 'SET_NAME',
+					name: 'Initial Changedname'
+				})
+				resolve()
+			})
+		})
+	}))
+	.then(() => new Promise(resolve => {
+		nameListenerResolve = resolve
+		watcher.clearCompareFunction(nameSelector)
+		customEqualTest = false
+		prevState = store.getState()
+		describe('ReduxWatcher.prototype.watch', () => {
+			it('should watch changes of an Object / String', () => {
+				store.dispatch({
+					type: 'SET_NAME',
+					name: 'Foo Bar'
 				})
 			})
 		})
-	)
+	}))
 	.then(() => new Promise(resolve => {
 		prevState = store.getState()
 		followeesListenerResolve = resolve
@@ -133,7 +151,7 @@ new Promise(resolve => {
 		})
 	}))
 	.then(() => new Promise(resolve => {
-		deeplyEqualTest = true
+		objectEqualTest = true
 		describe('ReduxWatcher.prototype.watch', () => {
 			it('shouldn\'t call listeners when value of state is not change', () => {
 				store.dispatch({
@@ -146,7 +164,7 @@ new Promise(resolve => {
 	}))
 	.then(() => new Promise(resolve => {
 		nameListenerResolve = resolve
-		deeplyEqualTest = false
+		objectEqualTest = false
 		isWatchingName = false
 		nameListenerCounter = uncalledNameListenerCounter = 2
 		watcher.off(nameSelector, nameListener)

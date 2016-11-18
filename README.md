@@ -18,7 +18,9 @@ import ReduxWatcher from 'redux-watcher'
 
 const watcher = new ReduxWatcher(store)
 watcher.watch('user', logChange) // watch `store.getState().user`
-watcher.watch(['user', 'name'], logChange) //watch `store.getState().user.name`
+watcher.watch(['user', 'name'], logChange) // watch `store.getState().user.name`
+
+watcher.setCompareFunction('user', (a, b) => a === b) // use custom compare function
 
 setTimeout(() => {
 	watcher.off('user', logChange)
@@ -93,7 +95,20 @@ Return value of the state according to the selector.
 
 - `state`: A state object.
 - `selector`: Selector for the target.
-- `value`: Value of the state. 
+- `value`: Value of the state.
+
+### ReduxWatcher.prototype.setCompareFunction(selector, isEqual)
+
+Use custom compare function.
+
+- `selector`: The selector to use custom compare function.
+- `isEqual`: A `Function` to determine if previous value equals to current value. Previous value and current value will be passed as the parameter.
+
+### ReduxWatcher.prototype.clearCompareFunction(selector)
+
+Remove custom compare function and use the default one(deep equal).
+
+- `selector`: The selector to use default compare function.
 
 ## License
 

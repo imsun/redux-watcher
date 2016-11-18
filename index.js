@@ -17,8 +17,9 @@ export default class ReduxWatcher {
 				const selector = JSON.parse(key)
 				const prevValue = select(prevState, selector)
 				const currentValue = select(currentState, selector)
+				const isEqualFn = listeners.isEqual || isEqual
 
-				if (!isEqual(prevValue, currentValue)) {
+				if (!isEqualFn(prevValue, currentValue)) {
 					listeners.forEach(listener => listener({
 						store,
 						selector,
@@ -56,6 +57,13 @@ export default class ReduxWatcher {
 		if (listeners.length === 0) {
 			delete watchList[selectorStr]
 		}
+	}
+	setCompareFunction(selector, isEqual) {
+		const selectorStr = JSON.stringify(selector)
+		this.__watchList[selectorStr].isEqual = isEqual
+	}
+	clearCompareFunction(selector) {
+		this.setCompareFunction(selector)
 	}
 }
 
