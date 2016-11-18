@@ -32,6 +32,7 @@ export default class ReduxWatcher {
 			this.__prevState = currentState
 		})
 		this.watch = this.watch.bind(this)
+		this.off = this.off.bind(this)
 	}
 	watch(selector, listener) {
 		const watchList = this.__watchList
@@ -40,11 +41,12 @@ export default class ReduxWatcher {
 		watchList[selectorStr].push(listener)
 	}
 	off(selector, listener) {
+		const watchList = this.__watchList
 		const selectorStr = JSON.stringify(selector)
-		if (!this.__watchList[selectorStr]) {
+		if (!watchList[selectorStr]) {
 			throw new Error(`No listener for ${selectorStr}`)
 		}
-		const listeners = this.__watchList[selectorStr]
+		const listeners = watchList[selectorStr]
 		const listenerIndex = listeners.indexOf(listener)
 		if (listenerIndex >= 0) {
 			listeners.splice(listeners.indexOf(listener), 1)
@@ -52,7 +54,7 @@ export default class ReduxWatcher {
 			throw new Error(`No such listener for ${selectorStr}`)
 		}
 		if (listeners.length === 0) {
-			delete this.__watchList[selectorStr]
+			delete watchList[selectorStr]
 		}
 	}
 }
