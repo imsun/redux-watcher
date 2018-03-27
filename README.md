@@ -8,7 +8,7 @@
 [travis-image]: https://img.shields.io/travis/imsun/redux-watcher/master.svg
 [travis-url]: https://travis-ci.org/imsun/redux-watcher
 
-Watch [Redux](http://redux.js.org/) state changes.
+redux-watcher is a small library that allows you to use Observer design pattern and watch the state changes of a [Redux](http://redux.js.org/) object. The lightweight library can be ported to most projects with minimum modification. Fllowing exmaples tell you how to use redux-watcher.
 
 ## Example
 
